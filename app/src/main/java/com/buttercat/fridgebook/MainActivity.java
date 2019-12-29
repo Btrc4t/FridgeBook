@@ -11,6 +11,7 @@ import com.buttercat.fridgebook.ui.main.FridgeListFragment;
 public class MainActivity extends AppCompatActivity {
 
     //TODO Add Javadoc and logs for all the classes
+    //TODO move classes around to respect MVVM architecture
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

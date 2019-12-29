@@ -1,38 +1,61 @@
 package com.buttercat.fridgebook.model;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
 public class FridgeRepository {
 
-        private FridgeItemDao fridgeItemDao;
-        private LiveData<List<FridgeListItem>> liveFridgeList;
+    private static FridgeRepository sInstance;
+    private FridgeContentsDatabase mDatabase;
 
-        // Note that in order to unit test the WordRepository, you have to remove the Application
-        // dependency. This adds complexity and much more code, and this sample is not about testing.
-        // See the BasicSample in the android-architecture-components repository at
-        // https://github.com/googlesamples
-        public FridgeRepository(Application application) {
-            FridgeContentsDatabase db = FridgeContentsDatabase.getDatabase(application);
-            fridgeItemDao = db.fridgeItemDao();
-            liveFridgeList = fridgeItemDao.getFridgeContentsLiveData();
-        }
+    private FridgeItemDao fridgeItemDao;
+    private MediatorLiveData<List<FridgeListItem>> liveFridgeList;
 
-        // Room executes all queries on a separate thread.
-        // Observed LiveData will notify the observer when the data has changed.
-        public LiveData<List<FridgeListItem>> getFridgeContentsLiveData() {
-            return liveFridgeList;
-        }
+    // Note that in order to unit test the WordRepository, you have to remove the Application
+    // dependency. This adds complexity and much more code, and this sample is not about testing.
+    // See the BasicSample in the android-architecture-components repository at
+    // https://github.com/googlesamples
+    private FridgeRepository(final FridgeContentsDatabase fridgeContentsDatabase) {
+        mDatabase = fridgeContentsDatabase;
+        fridgeItemDao = mDatabase.fridgeItemDao();
+        liveFridgeList = new MediatorLiveData<>();
+        liveFridgeList.addSource(fridgeItemDao.getFridgeContentsLiveData(), productEntities -> {
+            if (mDatabase.getDatabaseCreated().getValue() != null) {
+                liveFridgeList.postValue(productEntities);
+            }
+        });
+    }
 
-        // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-        // that you're not doing any long running operations on the main thread, blocking the UI.
-        public void insert(FridgeListItem fridgeItem) {
-            FridgeContentsDatabase.databaseWriteExecutor.execute(() -> {
-                fridgeItemDao.insert(fridgeItem);
-            });
+    public static FridgeRepository getInstance(final FridgeContentsDatabase database) {
+        if (sInstance == null) {
+            synchronized (FridgeRepository.class) {
+                if (sInstance == null) {
+                    sInstance = new FridgeRepository(database);
+                }
+            }
         }
+        return sInstance;
+    }
+
+    /**
+     * Room executes all queries on a separate thread.
+     * Observed LiveData will notify the observer when the data has changed.
+     */
+    public LiveData<List<FridgeListItem>> getFridgeContentsLiveData() {
+        return liveFridgeList;
+    }
+
+    /**
+     * You must call this on a non-UI thread or your app will throw an exception. Room ensures
+     * that you're not doing any long running operations on the main thread, blocking the UI.
+     *
+     * @param fridgeItem the {@link FridgeListItem} to be inserted into the database
+     */
+    public void insert(FridgeListItem fridgeItem) {
+            fridgeItemDao.insert(fridgeItem);
+    }
 
 }

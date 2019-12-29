@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.buttercat.fridgebook.model.BasicApp;
 import com.buttercat.fridgebook.model.FridgeListItem;
 import com.buttercat.fridgebook.model.FridgeListViewAdapter;
 import com.buttercat.fridgebook.model.FridgeRepository;
@@ -21,7 +22,7 @@ public class FridgeListViewModel extends AndroidViewModel {
 
     public FridgeListViewModel(Application application) {
         super(application);
-        repository = new FridgeRepository(application);
+        repository = ((BasicApp) application).getRepository();
         fridgeContents = repository.getFridgeContentsLiveData();
         myRecyclerViewAdapter = new FridgeListViewAdapter(this, application);
     }
