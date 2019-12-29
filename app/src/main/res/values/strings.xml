@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FridgeBook</string>
+    <string name="database_name">fridge_database</string>
 </resources>

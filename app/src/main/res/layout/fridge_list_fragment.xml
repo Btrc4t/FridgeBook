@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="model"
+            type="com.buttercat.fridgebook.ui.main.FridgeListViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main"
@@ -14,17 +20,30 @@
             android:id="@+id/fridgeList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:padding="4dp"
+            android:layout_marginBottom="@dimen/layout_margin_all_8dp"
+            android:layout_marginEnd="@dimen/layout_margin_all_8dp"
+            android:layout_marginLeft="@dimen/layout_margin_all_8dp"
+            android:layout_marginRight="@dimen/layout_margin_all_8dp"
+            android:layout_marginStart="@dimen/layout_margin_all_8dp"
+            android:layout_marginTop="@dimen/layout_margin_all_8dp"
+            android:padding="@dimen/layout_padding_all_4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:setAdapter="@{model.getAdapter()}"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_black_24dp"
+            android:layout_margin="@dimen/layout_margin_all_16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="addButtonClicked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
