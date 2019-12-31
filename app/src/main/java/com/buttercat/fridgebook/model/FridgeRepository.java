@@ -1,5 +1,9 @@
 package com.buttercat.fridgebook.model;
 
+import com.buttercat.fridgebook.model.database.FridgeContentsDatabase;
+import com.buttercat.fridgebook.model.database.FridgeItemDao;
+import com.buttercat.fridgebook.model.database.FridgeListItem;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 

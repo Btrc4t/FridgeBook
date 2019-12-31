@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="com.buttercat.fridgebook.ui.main.FridgeListViewModel" />
+            type="com.buttercat.fridgebook.viewmodel.FridgeListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +14,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.FridgeListFragment">
+        tools:context=".view.FridgeListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fridgeList"

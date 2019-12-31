@@ -5,11 +5,11 @@
 
         <variable
             name="item"
-            type="com.buttercat.fridgebook.model.FridgeListItem" />
+            type="com.buttercat.fridgebook.model.database.FridgeListItem" />
 
         <variable
             name="itemClickListener"
-            type="com.buttercat.fridgebook.model.FridgeItemClickListener" />
+            type="com.buttercat.fridgebook.view.utils.FridgeItemClickListener" />
     </data>
 
 

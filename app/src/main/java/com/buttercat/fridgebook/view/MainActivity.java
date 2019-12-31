@@ -1,16 +1,17 @@
-package com.buttercat.fridgebook;
+/*
+ * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
+ */
+
+package com.buttercat.fridgebook.view;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.buttercat.fridgebook.model.FridgeListItem;
-import com.buttercat.fridgebook.ui.main.FridgeListFragment;
+import com.buttercat.fridgebook.R;
 
 public class MainActivity extends AppCompatActivity {
 

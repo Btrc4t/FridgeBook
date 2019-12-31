@@ -1,4 +1,8 @@
-package com.buttercat.fridgebook.model;
+/*
+ * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
+ */
+
+package com.buttercat.fridgebook.model.database;
 
 import android.content.Context;
 
@@ -11,6 +15,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.buttercat.fridgebook.R;
+import com.buttercat.fridgebook.model.AppExecutors;
 
 @Database(entities = {FridgeListItem.class}, version = 1, exportSchema = false)
 public abstract class FridgeContentsDatabase extends RoomDatabase {
@@ -45,7 +50,8 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
                 .build();
     }
 
-    static FridgeContentsDatabase getInstance(final Context context, AppExecutors executors) {
+    public static FridgeContentsDatabase getInstance(final Context context,
+                                                     AppExecutors executors) {
         if (sInstance == null) {
             synchronized (FridgeContentsDatabase.class) {
                 if (sInstance == null) {
