@@ -34,6 +34,4 @@ public class FridgeListViewModel extends AndroidViewModel {
     public FridgeListViewAdapter getAdapter() {
             return myRecyclerViewAdapter;
     }
-
-    public void insert(FridgeListItem fridgeListItem) { repository.insert(fridgeListItem); }
 }

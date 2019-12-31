@@ -28,44 +28,9 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
      */
     private static FridgeContentsDatabase buildDatabase(final Context appContext,
                                                         final AppExecutors executors) {
-        //TODO remove this callback once database entries can be added from the app
-        RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
-            @Override
-            public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                super.onOpen(db);
-
-                // If you want to keep data through app restarts,
-                // comment out the following block
-                executors.diskIO().execute(() -> {
-                    // Populate the database in the background.
-                    // If you want to start with more words, just add them.
-                    FridgeItemDao dao = sInstance.fridgeItemDao();
-                    dao.deleteAll();
-
-                    dao.insert(new FridgeListItem("Oreo", "81g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Pie", "90g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Nougat", "70g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Marshmallow", "60g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Oreo2", "81g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Pie2", "90g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Nougat2", "70g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Marshmallow2", "60g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Oreo3", "81g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Pie3", "90g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Nougat3", "70g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Marshmallow3", "60g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Oreo4", "81g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Pie4", "90g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Nougat4", "70g", ItemType.SOLID));
-                    dao.insert(new FridgeListItem("Marshmallow4", "60g", ItemType.SOLID));
-                });
-            }
-        };
 
         return Room.databaseBuilder(appContext, FridgeContentsDatabase.class,
                 appContext.getResources().getString(R.string.database_name))
-                //TODO remove this callback once database entries can be added from the app
-                .addCallback(sRoomDatabaseCallback)
                 .addCallback(new Callback() {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {

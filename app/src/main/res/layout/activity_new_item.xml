@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edit_ingredient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_padding_all_16dp"
+            android:layout_marginBottom="@dimen/layout_padding_all_16dp"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/hint_new_fridge_item"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/layout_padding_all_6dp"
+            android:textSize="@dimen/text_size_18sp" />
+
+        <EditText
+            android:id="@+id/edit_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_padding_all_16dp"
+            android:layout_marginBottom="@dimen/layout_padding_all_16dp"
+            android:fontFamily="sans-serif-light"
+            android:hint="@string/hint_new_fridge_item_quantity"
+            android:inputType="textAutoComplete"
+            android:padding="@dimen/layout_padding_all_6dp"
+            android:textSize="@dimen/text_size_18sp" />
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/button_save"
+            android:onClick="saveButtonClicked"
+            android:textColor="@color/buttonLabel" />
+
+    </LinearLayout>
+
+</layout>

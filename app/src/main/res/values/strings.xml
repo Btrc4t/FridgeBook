@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">FridgeBook</string>
     <string name="database_name">fridge_database</string>
+    <string name="hint_new_fridge_item">Enter ingredient</string>
+    <string name="button_save">Save</string>
+    <string name="empty_not_saved">Item was not saved (empty)</string>
+    <string name="hint_new_fridge_item_quantity">Enter quantity</string>
 </resources>

@@ -1,11 +1,15 @@
 package com.buttercat.fridgebook;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.buttercat.fridgebook.model.FridgeListItem;
 import com.buttercat.fridgebook.ui.main.FridgeListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        Log.i("INST", "onCreate: "+"savedInstance null "+(savedInstanceState == null));
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.container, FridgeListFragment.newInstance())
@@ -25,6 +30,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addButtonClicked(View view) {
-        //TODO change fragment to a new fragment which creates an entry for the DB
+        startActivity(new Intent(this, NewItemActivity.class));
     }
 }

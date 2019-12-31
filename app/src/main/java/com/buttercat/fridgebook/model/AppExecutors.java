@@ -14,11 +14,10 @@ package com.buttercat.fridgebook.model;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * NOTE: The original file was modified
  */
 
-import android.os.Handler;
-import android.os.Looper;
-import androidx.annotation.NonNull;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -32,26 +31,15 @@ public class AppExecutors {
 
     private final Executor mDiskIO;
 
-    private AppExecutors(Executor diskIO, Executor networkIO, Executor mainThread) {
+    private AppExecutors(Executor diskIO) {
         this.mDiskIO = diskIO;
     }
 
     public AppExecutors() {
-        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(3),
-                new MainThreadExecutor());
+        this(Executors.newSingleThreadExecutor());
     }
 
     public Executor diskIO() {
         return mDiskIO;
     }
-
-    private static class MainThreadExecutor implements Executor {
-        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-
-        @Override
-        public void execute(@NonNull Runnable command) {
-            mainThreadHandler.post(command);
-        }
-    }
 }
-

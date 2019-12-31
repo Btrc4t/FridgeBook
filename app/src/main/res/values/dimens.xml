@@ -3,4 +3,7 @@
     <dimen name="layout_margin_all_8dp">8dp</dimen>
     <dimen name="layout_padding_all_4dp">4dp</dimen>
     <dimen name="layout_margin_all_16dp">16dp</dimen>
+    <dimen name="layout_padding_all_6dp">6dp</dimen>
+    <dimen name="layout_padding_all_16dp">16dp</dimen>
+    <dimen name="text_size_18sp">18sp</dimen>
 </resources>

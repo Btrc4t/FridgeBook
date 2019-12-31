@@ -2,7 +2,6 @@ package com.buttercat.fridgebook.model;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
@@ -14,16 +13,12 @@ public class FridgeRepository {
     private FridgeItemDao fridgeItemDao;
     private MediatorLiveData<List<FridgeListItem>> liveFridgeList;
 
-    // Note that in order to unit test the WordRepository, you have to remove the Application
-    // dependency. This adds complexity and much more code, and this sample is not about testing.
-    // See the BasicSample in the android-architecture-components repository at
-    // https://github.com/googlesamples
     private FridgeRepository(final FridgeContentsDatabase fridgeContentsDatabase) {
         mDatabase = fridgeContentsDatabase;
         fridgeItemDao = mDatabase.fridgeItemDao();
         liveFridgeList = new MediatorLiveData<>();
         liveFridgeList.addSource(fridgeItemDao.getFridgeContentsLiveData(), productEntities -> {
-            if (mDatabase.getDatabaseCreated().getValue() != null) {
+            if (mDatabase.getDatabaseCreated().getValue() == true) {
                 liveFridgeList.postValue(productEntities);
             }
         });
@@ -55,6 +50,7 @@ public class FridgeRepository {
      * @param fridgeItem the {@link FridgeListItem} to be inserted into the database
      */
     public void insert(FridgeListItem fridgeItem) {
+
             fridgeItemDao.insert(fridgeItem);
     }
 
