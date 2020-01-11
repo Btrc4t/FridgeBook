@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.view;
 
 import android.os.Bundle;
@@ -18,9 +14,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+/**
+ * An activity which gathers input from the user to create a new {@link FridgeListItem} and
+ * store it in the database.
+ */
 public class NewItemActivity extends AppCompatActivity {
 
+    /**
+     * An {@link androidx.lifecycle.AndroidViewModel} for the activity
+     */
     private NewItemViewModel mNewItemViewModel;
+    /**
+     * The databinding class which takes care of inflating the activity
+     */
     private ActivityNewItemBinding mBinding;
 
     @Override
@@ -30,6 +36,12 @@ public class NewItemActivity extends AppCompatActivity {
         mNewItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
     }
 
+    /**
+     * Method which is called when the save button is clicked, saves the user input in a new
+     * {@link FridgeListItem} and inserts it into the database then closes the activity.
+     *
+     * @param view the {@link View} which was clicked
+     */
     public void saveButtonClicked(View view) {
         if (TextUtils.isEmpty(mBinding.editIngredient.getText().toString())) {
             //TODO alert user

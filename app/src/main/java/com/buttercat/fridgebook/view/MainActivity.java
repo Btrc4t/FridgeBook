@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.view;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +9,8 @@ import android.view.View;
 
 import com.buttercat.fridgebook.R;
 
-public class MainActivity extends AppCompatActivity {
 
-    //TODO Add Javadoc and logs for all the classes
-    //TODO move classes around to respect MVVM architecture
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method called when the floating button used to add an item is clicked.
+     * Starts a {@link NewItemActivity}
+     *
+     * @param view the floating button clicked
+     */
     public void addButtonClicked(View view) {
         startActivity(new Intent(this, NewItemActivity.class));
     }
