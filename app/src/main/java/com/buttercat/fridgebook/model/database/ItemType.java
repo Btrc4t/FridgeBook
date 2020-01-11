@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.model.database;
 
 /**
@@ -17,13 +13,26 @@ public enum ItemType {
      * Liquid item, measured in milliliters by default
      */
     LIQUID(1);
-
+    /**
+     * Field containing the value of this enum
+     */
     private int type;
 
+    /**
+     * Creates an object using an input value
+     *
+     * @param value to be associated with an item type
+     */
     ItemType(int value) {
         this.type = value;
     }
 
+    /**
+     * Returns an object created from an input value.
+     *
+     * @param value to be associated with an item type
+     * @return object for the input value
+     */
     public static ItemType fromInt(int value) {
         for (ItemType item : ItemType.values()) {
             if (item.type == value) {
@@ -33,6 +42,11 @@ public enum ItemType {
         return null;
     }
 
+    /**
+     * Returns the value associated with the item
+     *
+     * @return value associated with the item
+     */
     public int getType() {
         return type;
     }

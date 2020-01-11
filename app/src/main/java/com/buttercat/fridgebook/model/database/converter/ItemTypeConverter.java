@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.model.database.converter;
 
 import com.buttercat.fridgebook.model.database.ItemType;

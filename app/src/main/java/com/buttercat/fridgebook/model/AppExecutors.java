@@ -28,17 +28,32 @@ import java.util.concurrent.Executors;
  * webservice requests).
  */
 public class AppExecutors {
-
+    /**
+     * {@link Executor} for disk operations
+     */
     private final Executor mDiskIO;
 
+    /**
+     * Private constructor initializing the {@link Executor}
+     *
+     * @param diskIO an {@link Executor} for disk operations
+     */
     private AppExecutors(Executor diskIO) {
         this.mDiskIO = diskIO;
     }
 
+    /**
+     * Constructor which creates a single thread {@link Executor} for disk operations
+     */
     public AppExecutors() {
         this(Executors.newSingleThreadExecutor());
     }
 
+    /**
+     * Getter for the disk operations {@link Executor}
+     *
+     * @return disk operations {@link Executor}
+     */
     public Executor diskIO() {
         return mDiskIO;
     }

@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.view;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -19,13 +15,22 @@ import android.view.ViewGroup;
 import com.buttercat.fridgebook.databinding.FridgeListFragmentBinding;
 import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 
+/**
+ * A custom {@link Fragment} which shows the
+ * {@link com.buttercat.fridgebook.view.utils.FridgeListViewAdapter}
+ */
 public class FridgeListFragment extends Fragment {
-
-    private FridgeListViewModel mViewModel;
-
+    /**
+     * The databinding class which takes care of inflating the fragment
+     */
     private FridgeListFragmentBinding fridgeListFragmentBinding;
 
-    public static FridgeListFragment newInstance() {
+    /**
+     * Method returning a new instance of this class
+     *
+     * @return a new {@link FridgeListFragment} instance
+     */
+    /*package*/ static FridgeListFragment newInstance() {
         return new FridgeListFragment();
     }
 
@@ -41,7 +46,7 @@ public class FridgeListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(FridgeListViewModel.class);
+        FridgeListViewModel mViewModel = new ViewModelProvider(this).get(FridgeListViewModel.class);
         fridgeListFragmentBinding.setLifecycleOwner(this);
         fridgeListFragmentBinding.setModel(mViewModel);
     }

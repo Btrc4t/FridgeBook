@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook.view.utils;
 
 import android.content.Context;
@@ -20,15 +16,33 @@ import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A custom {@link RecyclerView.Adapter} which is purpose-built to show {@link FridgeListItem} objects
+ */
 public class FridgeListViewAdapter
         extends RecyclerView.Adapter<FridgeListViewAdapter.FridgeItemViewHolder>
         implements FridgeItemClickListener {
 
+    /**
+     * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link FridgeListItem}
+     */
     private FridgeListViewModel mainViewModel;
+    /**
+     * A {@link Context} used to show a toast TODO remove this
+     */
     private Context context;
+    /**
+     * The list of {@link FridgeListItem} objects to be shown in this adapter
+     */
     private List<FridgeListItem> fridgeListItems = new ArrayList<>();
 
+    /**
+     * Constructor which creates an {@link java.util.Observer} for the list of {@link FridgeListItem}
+     *
+     * @param viewModel a reference for the {@link androidx.lifecycle.AndroidViewModel} which provides
+     *                  the list of {@link FridgeListItem} objects
+     * @param context a reference for the {@link Context} used to show a toast TODO remove this
+     */
     public FridgeListViewAdapter(FridgeListViewModel viewModel, Context context) {
         this.mainViewModel = viewModel;
         this.context = context;
@@ -75,8 +89,14 @@ public class FridgeListViewAdapter
         }
     }
 
-    public void fridgeItemClicked(FridgeListItem f) {
-        Toast.makeText(context, "You clicked " + f.getFridgeItemName(),
+    /**
+     * Method called when a {@link FridgeListItem} is clicked, showing a {@link Toast} as feedback
+     * to the user
+     *
+     * @param fridgeListItem the {@link FridgeListItem} which was clicked
+     */
+    public void fridgeItemClicked(FridgeListItem fridgeListItem) {
+        Toast.makeText(context, "You clicked " + fridgeListItem.getFridgeItemName(),
                 Toast.LENGTH_SHORT).show();
     }
 }

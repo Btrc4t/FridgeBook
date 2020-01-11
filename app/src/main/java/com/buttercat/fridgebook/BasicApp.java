@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2019. Parrot Faurecia Automotive S.A.S. All rights reserved.
- */
-
 package com.buttercat.fridgebook;
 
 import android.app.Application;
@@ -15,6 +11,9 @@ import com.buttercat.fridgebook.model.database.FridgeContentsDatabase;
  */
 public class BasicApp extends Application {
 
+    /**
+     * {@link java.util.concurrent.Executor} objects to be used for the whole application
+     */
     private AppExecutors mAppExecutors;
 
     @Override
