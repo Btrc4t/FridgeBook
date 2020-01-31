@@ -37,6 +37,9 @@ dependencies {
     def jUnitVersion = '4.12'
     def jUnitSubVersion = '1.1.1'
     def espressoCoreVersion = '3.2.0'
+    def retrofitVersion = '2.7.1'
+    def retrofitMoshiConverterVersion = '2.7.1'
+    def moshiVersion = '1.9.2'
 
     // Project Components
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -54,6 +57,13 @@ dependencies {
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitMoshiConverterVersion"
+
+    // Moshi (JSON)
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
 
     // UI
     implementation "com.google.android.material:material:$materialVersion"

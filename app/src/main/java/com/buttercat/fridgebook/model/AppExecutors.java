@@ -19,6 +19,7 @@ package com.buttercat.fridgebook.model;
  */
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -34,19 +35,26 @@ public class AppExecutors {
     private final Executor mDiskIO;
 
     /**
+     * {@link java.util.concurrent.ExecutorService} for network operations
+     */
+    private final ExecutorService mNetworkIO;
+
+    /**
      * Private constructor initializing the {@link Executor}
      *
      * @param diskIO an {@link Executor} for disk operations
      */
-    private AppExecutors(Executor diskIO) {
+    private AppExecutors(Executor diskIO, ExecutorService netIO) {
         this.mDiskIO = diskIO;
+        this.mNetworkIO = netIO;
     }
 
     /**
-     * Constructor which creates a single thread {@link Executor} for disk operations
+     * Constructor which creates single thread {@link Executor} instances for
+     * disk operations and network operations
      */
     public AppExecutors() {
-        this(Executors.newSingleThreadExecutor());
+        this(Executors.newSingleThreadExecutor(), Executors.newSingleThreadExecutor());
     }
 
     /**
@@ -56,5 +64,14 @@ public class AppExecutors {
      */
     public Executor diskIO() {
         return mDiskIO;
+    }
+
+    /**
+     * Getter for the network operations {@link ExecutorService}
+     *
+     * @return network operations {@link ExecutorService}
+     */
+    public ExecutorService getNetworkIO() {
+        return mNetworkIO;
     }
 }

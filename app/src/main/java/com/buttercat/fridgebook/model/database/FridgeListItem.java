@@ -9,8 +9,10 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 /**
- * An item present in the user's refrigerator (presumably) which has a name, a type (liquid/solid) and
- * a quantity (stored in grams/milliliters by default)
+ * An item present in the user's refrigerator (presumably) which has a name, a type (liquid/solid)
+ * and a quantity (stored in grams/milliliters by default)
+ * TODO match fields with {@link com.buttercat.fridgebook.model.apisource.model.Ingredient}
+ * TODO remove {@link ItemType}
  */
 @Entity(tableName = "fridge_items")
 public class FridgeListItem {

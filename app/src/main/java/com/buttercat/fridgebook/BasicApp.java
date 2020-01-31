@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.buttercat.fridgebook.model.AppExecutors;
 import com.buttercat.fridgebook.model.FridgeRepository;
+import com.buttercat.fridgebook.model.apisource.SpoontacularApi;
 import com.buttercat.fridgebook.model.database.FridgeContentsDatabase;
 
 /**
@@ -38,7 +39,7 @@ public class BasicApp extends Application {
      * @return the singleton {@link FridgeRepository}
      */
     public FridgeRepository getRepository() {
-        return FridgeRepository.getInstance(getDatabase());
+        return FridgeRepository.getInstance(getDatabase(), getRetrofitSpoontacularApi());
     }
 
     /**
@@ -48,6 +49,15 @@ public class BasicApp extends Application {
      */
     public AppExecutors getAppExecutors(){
         return mAppExecutors;
+    }
+
+    /**
+     * Getter for the {@link SpoontacularApi}
+     *
+     * @return the {@link SpoontacularApi} singleton used to obtain Spoontacular API data
+     */
+    public SpoontacularApi getRetrofitSpoontacularApi() {
+        return SpoontacularApi.getInstance(mAppExecutors.getNetworkIO());
     }
 }
 

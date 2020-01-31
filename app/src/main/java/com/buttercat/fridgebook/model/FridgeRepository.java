@@ -1,13 +1,17 @@
 package com.buttercat.fridgebook.model;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+
+import com.buttercat.fridgebook.model.apisource.SpoontacularApi;
+import com.buttercat.fridgebook.model.apisource.model.Ingredient;
 import com.buttercat.fridgebook.model.database.FridgeContentsDatabase;
 import com.buttercat.fridgebook.model.database.FridgeItemDao;
 import com.buttercat.fridgebook.model.database.FridgeListItem;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
-
 import java.util.List;
+
+import retrofit2.Callback;
 
 /**
  * A repository which provides access to information from the database
@@ -18,6 +22,10 @@ public class FridgeRepository {
      * Singleton instance of this class
      */
     private static FridgeRepository sInstance;
+    /**
+     * Spoontacular API data source
+     */
+    private final SpoontacularApi mSpoontacularApi;
     /**
      * Singleton instance of {@link FridgeContentsDatabase}
      */
@@ -35,8 +43,11 @@ public class FridgeRepository {
      * Default constructor which links the database livedata and provides access to the DAO
      *
      * @param fridgeContentsDatabase a static reference of {@link FridgeContentsDatabase}
+     * @param spoontacularApi        the Spoontacular API data source
      */
-    private FridgeRepository(final FridgeContentsDatabase fridgeContentsDatabase) {
+    private FridgeRepository(final FridgeContentsDatabase fridgeContentsDatabase,
+                             SpoontacularApi spoontacularApi) {
+        mSpoontacularApi = spoontacularApi;
         mDatabase = fridgeContentsDatabase;
         fridgeItemDao = mDatabase.fridgeItemDao();
         liveFridgeList = new MediatorLiveData<>();
@@ -45,18 +56,21 @@ public class FridgeRepository {
                 liveFridgeList.postValue(productEntities);
             }
         });
+
     }
 
     /**
-     * @param database a singleton {@link FridgeContentsDatabase} in case the instance must be created
-     *
-     * @return an instance of this class, {@link FridgeRepository}
+     * @param database        a singleton {@link FridgeContentsDatabase} in case the instance must
+     *                        be created
+     * @param spoontacularApi the Spoontacular API data source
+     * @return a static instance of this class, {@link FridgeRepository}
      */
-    public static FridgeRepository getInstance(final FridgeContentsDatabase database) {
+    public static FridgeRepository getInstance(final FridgeContentsDatabase database,
+                                               SpoontacularApi spoontacularApi) {
         if (sInstance == null) {
             synchronized (FridgeRepository.class) {
                 if (sInstance == null) {
-                    sInstance = new FridgeRepository(database);
+                    sInstance = new FridgeRepository(database, spoontacularApi);
                 }
             }
         }
@@ -80,7 +94,18 @@ public class FridgeRepository {
      * @param fridgeItem the {@link FridgeListItem} to be inserted into the database
      */
     public void insert(FridgeListItem fridgeItem) {
-            fridgeItemDao.insert(fridgeItem);
+        fridgeItemDao.insert(fridgeItem);
     }
 
+    /**
+     * Obtain a {@link List<Ingredient>} asynchronously, with a query and set a {@link Callback}
+     * that will be called when the list is obtained by {@link retrofit2.Retrofit}
+     *
+     * @param query        the {@link String} used to search ingredients
+     * @param limit        the maximum size of the {@link List}
+     * @param respCallback a {@link Callback} which is called when the query has completed
+     */
+    public void fetchIngredientsWithQuery(String query, int limit, Callback<List<Ingredient>> respCallback) {
+        mSpoontacularApi.fetchIngredientsList(query, limit, respCallback);
+    }
 }
