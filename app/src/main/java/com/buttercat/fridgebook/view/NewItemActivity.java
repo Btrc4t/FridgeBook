@@ -16,11 +16,11 @@ import com.buttercat.fridgebook.databinding.ActivityNewItemBinding;
 import com.buttercat.fridgebook.model.apisource.model.Ingredient;
 import com.buttercat.fridgebook.model.database.FridgeListItem;
 import com.buttercat.fridgebook.model.database.ItemType;
+import com.buttercat.fridgebook.view.utils.IngredientCallback;
 import com.buttercat.fridgebook.view.utils.NewItemArrayAdapter;
 import com.buttercat.fridgebook.viewmodel.NewItemViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,7 +31,7 @@ import retrofit2.Response;
  * An activity which gathers input from the user to create a new {@link FridgeListItem} and
  * store it in the database.
  */
-public class NewItemActivity extends AppCompatActivity {
+public class NewItemActivity extends AppCompatActivity implements IngredientCallback {
 
     private static final String TAG = NewItemActivity.class.getSimpleName();
     /**
@@ -52,18 +52,23 @@ public class NewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_item);
         mNewItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
-        mSuggestionsAdapter = new NewItemArrayAdapter(this, new ArrayList<>());
+        mSuggestionsAdapter = new NewItemArrayAdapter(this, this,
+                new ArrayList<>());
         mBinding.editIngredient.setAdapter(mSuggestionsAdapter);
-
         mBinding.editIngredient.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count < 2) return; // Don't query the API with less than 2 characters
                 // Fetch 5 ingredients
                 // TODO remove magic numbers
-                mNewItemViewModel.fetchIngredientsWithQuery(s.toString(), 5, new Callback<List<Ingredient>>() {
+                mNewItemViewModel.fetchIngredientsWithQuery(s.toString(), 5,
+                        new Callback<List<Ingredient>>() {
                     @Override
-                    public void onResponse(Call<List<Ingredient>> call, Response<List<Ingredient>> response) {
+                    public void onResponse(Call<List<Ingredient>> call,
+                                           Response<List<Ingredient>> response) {
                         if (response.body() == null) {
                             Log.i(TAG, "onResponse: null body");
                             return;
@@ -77,9 +82,6 @@ public class NewItemActivity extends AppCompatActivity {
                     }
                 });
             }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) { }
@@ -112,5 +114,10 @@ public class NewItemActivity extends AppCompatActivity {
         String quantity = mBinding.editQuantity.getText().toString();
         mNewItemViewModel.insert(new FridgeListItem(itemName, quantity, ItemType.SOLID));
         this.finish();
+    }
+
+    @Override
+    public void onIngredientSelected(Ingredient ingredientSelected) {
+        //TODO modify activity elements to match ingredient e.g. unit type
     }
 }

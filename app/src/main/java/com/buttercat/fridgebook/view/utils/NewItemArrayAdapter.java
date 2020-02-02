@@ -41,6 +41,7 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
      * {@link android.widget.AutoCompleteTextView}
      */
     private Ingredient mLastSelectedIngredient;
+    private IngredientCallback mIngredientCallback;
 
     /**
      * Constructor which uses a basic Android layout to show a dropdown of suggestions
@@ -48,10 +49,12 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
      * @param context {@link Context} used by the {@link LayoutInflater} to inflate one item's view
      * @param objects {@link List<Ingredient>} to be shown as suggestions
      */
-    public NewItemArrayAdapter(@NonNull Context context, @NonNull List<Ingredient> objects) {
+    public NewItemArrayAdapter(IngredientCallback ingredientCallback, @NonNull Context context,
+                               @NonNull List<Ingredient> objects) {
         super(context, android.R.layout.simple_dropdown_item_1line, objects);
         mContext = context;
         mIngredientList = objects;
+        mIngredientCallback = ingredientCallback;
         setNotifyOnChange(true);
     }
 
@@ -95,16 +98,18 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
         notifyDataSetChanged();
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            convertView = inflater.inflate(android.R.layout.simple_dropdown_item_1line, parent, false);
+            convertView = inflater.inflate(
+                    android.R.layout.simple_dropdown_item_1line, parent, false);
         }
         try {
             Ingredient ingredient = getItem(position);
             TextView name = convertView.findViewById(android.R.id.text1);
-            name.setText(ingredient.getName());
+            name.setText(ingredient != null ? ingredient.getName() : "");
         } catch (Exception e) {
             Log.e(TAG, "getView: failed to process ingredient", e);
         }
@@ -125,7 +130,8 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
                 List<Ingredient> ingredientSuggestions = new ArrayList<>();
                 if (constraint != null) {
                     for (Ingredient ingredient : mIngredientList) {
-                        if (ingredient.getName().toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                        if (ingredient.getName().toLowerCase()
+                                .startsWith(constraint.toString().toLowerCase())) {
                             ingredientSuggestions.add(ingredient);
                         }
                     }
@@ -137,17 +143,16 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                mIngredientList.clear();
-                if (results != null && results.count > 0) {
+                if (constraint != null && results != null && results.count > 0) {
+                    mIngredientList.clear();
                     for (Object object : (List<?>) results.values) {
                         if (object instanceof Ingredient) {
                             mIngredientList.add((Ingredient) object);
                         }
                     }
                     notifyDataSetChanged();
-                } else if (constraint == null) {
-                    // no filter, add entire original list back in
-                    mIngredientList.addAll(mIngredientList);
+                } else {
+                    // no filter, keep original list
                     notifyDataSetInvalidated();
                 }
             }
@@ -155,6 +160,7 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
             @Override
             public CharSequence convertResultToString(Object resultValue) {
                 mLastSelectedIngredient = (Ingredient) resultValue;
+                mIngredientCallback.onIngredientSelected(mLastSelectedIngredient);
                 return ((Ingredient) resultValue).getName();
             }
         };
