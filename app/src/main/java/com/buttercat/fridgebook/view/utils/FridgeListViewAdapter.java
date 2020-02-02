@@ -10,21 +10,19 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buttercat.fridgebook.databinding.ItemRowBinding;
-import com.buttercat.fridgebook.model.database.FridgeListItem;
+import com.buttercat.fridgebook.model.Ingredient;
 import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A custom {@link RecyclerView.Adapter} which is purpose-built to show {@link FridgeListItem} objects
- */
+
 public class FridgeListViewAdapter
         extends RecyclerView.Adapter<FridgeListViewAdapter.FridgeItemViewHolder>
         implements FridgeItemClickListener {
 
     /**
-     * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link FridgeListItem}
+     * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link Ingredient}
      */
     private FridgeListViewModel mainViewModel;
     /**
@@ -32,15 +30,15 @@ public class FridgeListViewAdapter
      */
     private Context context;
     /**
-     * The list of {@link FridgeListItem} objects to be shown in this adapter
+     * The list of {@link Ingredient} objects to be shown in this adapter
      */
-    private List<FridgeListItem> fridgeListItems = new ArrayList<>();
+    private List<Ingredient> fridgeListItems = new ArrayList<>();
 
     /**
-     * Constructor which creates an {@link java.util.Observer} for the list of {@link FridgeListItem}
+     * Constructor which creates an {@link java.util.Observer} for the list of {@link Ingredient}
      *
      * @param viewModel a reference for the {@link androidx.lifecycle.AndroidViewModel} which provides
-     *                  the list of {@link FridgeListItem} objects
+     *                  the list of {@link Ingredient} objects
      * @param context a reference for the {@link Context} used to show a toast TODO remove this
      */
     public FridgeListViewAdapter(FridgeListViewModel viewModel, Context context) {
@@ -63,7 +61,7 @@ public class FridgeListViewAdapter
 
     @Override
     public void onBindViewHolder(FridgeItemViewHolder holder, int position) {
-        FridgeListItem fridgeListItem = fridgeListItems.get(position);
+        Ingredient fridgeListItem = fridgeListItems.get(position);
         if (fridgeListItem == null) return;
         holder.bind(fridgeListItem);
         holder.itemRowBinding.setItemClickListener(this);
@@ -83,19 +81,19 @@ public class FridgeListViewAdapter
             this.itemRowBinding = itemRowBinding;
         }
 
-        /*package*/ void bind(FridgeListItem fridgeListItem) {
+        /*package*/ void bind(Ingredient fridgeListItem) {
             itemRowBinding.setItem(fridgeListItem);
             itemRowBinding.executePendingBindings();
         }
     }
 
     /**
-     * Method called when a {@link FridgeListItem} is clicked, showing a {@link Toast} as feedback
+     * Method called when a {@link Ingredient} is clicked, showing a {@link Toast} as feedback
      * to the user
      *
-     * @param fridgeListItem the {@link FridgeListItem} which was clicked
+     * @param fridgeListItem the {@link Ingredient} which was clicked
      */
-    public void fridgeItemClicked(FridgeListItem fridgeListItem) {
+    public void fridgeItemClicked(Ingredient fridgeListItem) {
         Toast.makeText(context, "You clicked " + fridgeListItem.getFridgeItemName(),
                 Toast.LENGTH_SHORT).show();
     }

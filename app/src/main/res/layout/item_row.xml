@@ -5,7 +5,7 @@
 
         <variable
             name="item"
-            type="com.buttercat.fridgebook.model.database.FridgeListItem" />
+            type="com.buttercat.fridgebook.model.Ingredient" />
 
         <variable
             name="itemClickListener"

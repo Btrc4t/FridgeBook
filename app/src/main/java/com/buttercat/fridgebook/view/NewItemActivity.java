@@ -13,9 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.buttercat.fridgebook.R;
 import com.buttercat.fridgebook.databinding.ActivityNewItemBinding;
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
-import com.buttercat.fridgebook.model.database.FridgeListItem;
-import com.buttercat.fridgebook.model.database.ItemType;
+import com.buttercat.fridgebook.model.Ingredient;
 import com.buttercat.fridgebook.view.utils.IngredientCallback;
 import com.buttercat.fridgebook.view.utils.NewItemArrayAdapter;
 import com.buttercat.fridgebook.viewmodel.NewItemViewModel;
@@ -28,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * An activity which gathers input from the user to create a new {@link FridgeListItem} and
+ * An activity which gathers input from the user to create a new {@link Ingredient} and
  * store it in the database.
  */
 public class NewItemActivity extends AppCompatActivity implements IngredientCallback {
@@ -90,29 +88,37 @@ public class NewItemActivity extends AppCompatActivity implements IngredientCall
 
     /**
      * Method which is called when the save button is clicked, saves the user input in a new
-     * {@link FridgeListItem} and inserts it into the database then closes the activity.
+     * {@link Ingredient} and inserts it into the database then closes the activity.
      *
      * @param view the {@link View} which was clicked
      */
     public void saveButtonClicked(View view) {
-        String selectedIngredient = mBinding.editIngredient.getText().toString();
+
+        String selectedIngredientName = mBinding.editIngredient.getText().toString();
         String selectedQuantity = mBinding.editQuantity.getText().toString();
-        if (TextUtils.isEmpty(selectedIngredient)) {
+        if (TextUtils.isEmpty(selectedIngredientName)) {
             //TODO alert user
             return;
         } else if (TextUtils.isEmpty(selectedQuantity)) {
             //TODO alert user
             return;
         }
-        if (!mSuggestionsAdapter.getTheLastSelectedIngredient().getName()
-                .contentEquals(selectedIngredient)) {
+        if (!mSuggestionsAdapter.getTheLastSelectedIngredient().getFridgeItemName()
+                .contentEquals(selectedIngredientName)) {
             //TODO alert user (for the first version we can't store unknown ingredients)
             return;
         }
+        float quantity = Float.parseFloat("0");
+        try {
+            Float.parseFloat(selectedQuantity);
+        } catch (Exception e) {
+            Log.e(TAG, "saveButtonClicked: could not parse quantity as integer", e);
+            return;
+        }
 
-        String itemName = mBinding.editIngredient.getText().toString();
-        String quantity = mBinding.editQuantity.getText().toString();
-        mNewItemViewModel.insert(new FridgeListItem(itemName, quantity, ItemType.SOLID));
+        Ingredient selectedIngredient = mSuggestionsAdapter.getTheLastSelectedIngredient();
+        selectedIngredient.setQuantity(quantity);
+        mNewItemViewModel.insert(selectedIngredient);
         this.finish();
     }
 

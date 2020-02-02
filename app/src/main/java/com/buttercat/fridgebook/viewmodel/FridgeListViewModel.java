@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buttercat.fridgebook.BasicApp;
-import com.buttercat.fridgebook.model.database.FridgeListItem;
+import com.buttercat.fridgebook.model.Ingredient;
 import com.buttercat.fridgebook.view.FridgeListFragment;
 import com.buttercat.fridgebook.view.utils.FridgeListViewAdapter;
 import com.buttercat.fridgebook.model.FridgeRepository;
@@ -20,9 +20,9 @@ import java.util.List;
 public class FridgeListViewModel extends AndroidViewModel {
 
     /**
-     * {@link LiveData<List<FridgeListItem>>} with {@link FridgeListItem} objects in the database
+     * {@link LiveData<List< Ingredient >>} with {@link Ingredient} objects in the database
      */
-    private LiveData<List<FridgeListItem>> fridgeContents;
+    private LiveData<List<Ingredient>> fridgeContents;
     /**
      * An adapter used by the {@link RecyclerView} through
      * databinding, using {@link #getAdapter()}
@@ -44,11 +44,11 @@ public class FridgeListViewModel extends AndroidViewModel {
     }
 
     /**
-     * Method which returns all of the {@link FridgeListItem} objects in the database
+     * Method which returns all of the {@link Ingredient} objects in the database
      *
-     * @return an observable list of {@link FridgeListItem} objects
+     * @return an observable list of {@link Ingredient} objects
      */
-    public LiveData<List<FridgeListItem>> getFridgeContents() {
+    public LiveData<List<Ingredient>> getFridgeContents() {
         return fridgeContents;
     }
 

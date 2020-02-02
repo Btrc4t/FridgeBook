@@ -8,15 +8,17 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.buttercat.fridgebook.R;
 import com.buttercat.fridgebook.model.AppExecutors;
+import com.buttercat.fridgebook.model.Ingredient;
 
 /**
- * The {@link RoomDatabase} containing {@link FridgeListItem} entities
+ * The {@link RoomDatabase} containing {@link Ingredient} entities
  */
-@Database(entities = {FridgeListItem.class}, version = 1, exportSchema = false)
+@Database(entities = {Ingredient.class}, version = 2, exportSchema = false)
 public abstract class FridgeContentsDatabase extends RoomDatabase {
     /**
      * A {@link Room} DAO used to perform predefined database operations
@@ -30,6 +32,20 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
      * A {@link MutableLiveData<Boolean>} storing a flag which is true when the database was created
      */
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
+    /**
+     * {@link Room} Migration from version 1 to version 2. Deleting all data.
+     */
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE `fridge_items`");
+            database.execSQL("CREATE TABLE `fridge_items` (`id` INTEGER NOT NULL, " +
+                    "`fridgeItemName` TEXT, `quantity` REAL NOT NULL, `aisle` TEXT, `unit` TEXT, " +
+                    "`image` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+
+
 
     /**
      * Build the database. {@link Builder#build()} only sets up the database configuration and
@@ -57,6 +73,7 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
                         });
                     }
                 })
+                .addMigrations(MIGRATION_1_2)
                 .build();
     }
 

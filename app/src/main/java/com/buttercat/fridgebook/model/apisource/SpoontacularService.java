@@ -1,7 +1,7 @@
 package com.buttercat.fridgebook.model.apisource;
 
 
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
+import com.buttercat.fridgebook.model.Ingredient;
 
 import java.util.List;
 

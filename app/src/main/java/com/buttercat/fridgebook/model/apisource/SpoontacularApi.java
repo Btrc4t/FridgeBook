@@ -1,6 +1,6 @@
 package com.buttercat.fridgebook.model.apisource;
 
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
+import com.buttercat.fridgebook.model.Ingredient;
 import com.squareup.moshi.Moshi;
 
 import java.util.List;

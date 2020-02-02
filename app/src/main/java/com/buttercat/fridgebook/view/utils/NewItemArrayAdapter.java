@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
+import com.buttercat.fridgebook.model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -109,7 +109,7 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
         try {
             Ingredient ingredient = getItem(position);
             TextView name = convertView.findViewById(android.R.id.text1);
-            name.setText(ingredient != null ? ingredient.getName() : "");
+            name.setText(ingredient != null ? ingredient.getFridgeItemName() : "");
         } catch (Exception e) {
             Log.e(TAG, "getView: failed to process ingredient", e);
         }
@@ -130,7 +130,7 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
                 List<Ingredient> ingredientSuggestions = new ArrayList<>();
                 if (constraint != null) {
                     for (Ingredient ingredient : mIngredientList) {
-                        if (ingredient.getName().toLowerCase()
+                        if (ingredient.getFridgeItemName().toLowerCase()
                                 .startsWith(constraint.toString().toLowerCase())) {
                             ingredientSuggestions.add(ingredient);
                         }
@@ -161,7 +161,7 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
             public CharSequence convertResultToString(Object resultValue) {
                 mLastSelectedIngredient = (Ingredient) resultValue;
                 mIngredientCallback.onIngredientSelected(mLastSelectedIngredient);
-                return ((Ingredient) resultValue).getName();
+                return ((Ingredient) resultValue).getFridgeItemName();
             }
         };
     }

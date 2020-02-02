@@ -4,8 +4,7 @@ import android.app.Application;
 
 import com.buttercat.fridgebook.model.AppExecutors;
 import com.buttercat.fridgebook.BasicApp;
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
-import com.buttercat.fridgebook.model.database.FridgeListItem;
+import com.buttercat.fridgebook.model.Ingredient;
 import com.buttercat.fridgebook.model.FridgeRepository;
 
 import androidx.lifecycle.AndroidViewModel;
@@ -38,11 +37,11 @@ public class NewItemViewModel extends AndroidViewModel {
     }
 
     /**
-     * Inserts a {@link FridgeListItem} into the {@link com.buttercat.fridgebook.model.database.FridgeContentsDatabase}
+     * Inserts a {@link Ingredient} into the {@link com.buttercat.fridgebook.model.database.FridgeContentsDatabase}
      *
      * @param fridgeListItem the item to be inserted into {@link com.buttercat.fridgebook.model.database.FridgeContentsDatabase}
      */
-    public void insert(FridgeListItem fridgeListItem) {
+    public void insert(Ingredient fridgeListItem) {
         executors.diskIO().execute(() -> repository.insert(fridgeListItem));
     }
 

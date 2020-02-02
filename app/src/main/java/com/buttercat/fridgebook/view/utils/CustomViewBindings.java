@@ -1,8 +1,12 @@
 package com.buttercat.fridgebook.view.utils;
 
+import android.widget.TextView;
+
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.DecimalFormat;
 
 /**
  * Class used to create custom {@link BindingAdapter} to particularize the functionality of databinding
@@ -20,5 +24,16 @@ public class CustomViewBindings {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    @BindingAdapter("android:text")
+    public static void setDouble(TextView view, double value) {
+        if (Double.isNaN(value)) {
+            view.setText("");
+        } else {
+            DecimalFormat decimalFormat = new DecimalFormat();
+            decimalFormat.setMaximumFractionDigits(3);
+            view.setText(decimalFormat.format(value));
+        }
     }
 }

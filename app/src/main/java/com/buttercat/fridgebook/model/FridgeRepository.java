@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.buttercat.fridgebook.model.apisource.SpoontacularApi;
-import com.buttercat.fridgebook.model.apisource.model.Ingredient;
 import com.buttercat.fridgebook.model.database.FridgeContentsDatabase;
 import com.buttercat.fridgebook.model.database.FridgeItemDao;
-import com.buttercat.fridgebook.model.database.FridgeListItem;
 
 import java.util.List;
 
@@ -35,9 +33,9 @@ public class FridgeRepository {
      */
     private FridgeItemDao fridgeItemDao;
     /**
-     * A {@link MediatorLiveData<List<FridgeListItem>>} linked with the database
+     * A {@link MediatorLiveData<List<Ingredient>>} linked with the database
      */
-    private MediatorLiveData<List<FridgeListItem>> liveFridgeList;
+    private MediatorLiveData<List<Ingredient>> liveFridgeList;
 
     /**
      * Default constructor which links the database livedata and provides access to the DAO
@@ -81,9 +79,9 @@ public class FridgeRepository {
      * Room executes all queries on a separate thread.
      * Observed LiveData will notify the observer when the data has changed.
      *
-     * @return a {@link LiveData<List<FridgeListItem>>} with the latest contents from the database
+     * @return a {@link LiveData<List<com.buttercat.fridgebook.model.Ingredient>>} with the latest contents from the database
      */
-    public LiveData<List<FridgeListItem>> getFridgeContentsLiveData() {
+    public LiveData<List<Ingredient>> getFridgeContentsLiveData() {
         return liveFridgeList;
     }
 
@@ -91,9 +89,9 @@ public class FridgeRepository {
      * You must call this on a non-UI thread or your app will throw an exception. Room ensures
      * that you're not doing any long running operations on the main thread, blocking the UI.
      *
-     * @param fridgeItem the {@link FridgeListItem} to be inserted into the database
+     * @param fridgeItem the {@link Ingredient} to be inserted into the database
      */
-    public void insert(FridgeListItem fridgeItem) {
+    public void insert(Ingredient fridgeItem) {
         fridgeItemDao.insert(fridgeItem);
     }
 
