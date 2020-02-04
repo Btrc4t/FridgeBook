@@ -18,7 +18,7 @@ import com.buttercat.fridgebook.model.Ingredient;
 /**
  * The {@link RoomDatabase} containing {@link Ingredient} entities
  */
-@Database(entities = {Ingredient.class}, version = 2, exportSchema = false)
+@Database(entities = {Ingredient.class}, version = 3, exportSchema = false)
 public abstract class FridgeContentsDatabase extends RoomDatabase {
     /**
      * A {@link Room} DAO used to perform predefined database operations
@@ -41,6 +41,18 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
             database.execSQL("DROP TABLE `fridge_items`");
             database.execSQL("CREATE TABLE `fridge_items` (`id` INTEGER NOT NULL, " +
                     "`fridgeItemName` TEXT, `quantity` REAL NOT NULL, `aisle` TEXT, `unit` TEXT, " +
+                    "`image` TEXT, PRIMARY KEY(`id`))");
+        }
+    };
+    /**
+     * {@link Room} Migration from version 2 to version 3. Deleting all data again.
+     */
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("DROP TABLE `fridge_items`");
+            database.execSQL("CREATE TABLE `fridge_items` (`id` INTEGER NOT NULL, " +
+                    "`fridgeItemName` TEXT, `quantity` TEXT, `aisle` TEXT, `unit` TEXT, " +
                     "`image` TEXT, PRIMARY KEY(`id`))");
         }
     };
@@ -74,6 +86,7 @@ public abstract class FridgeContentsDatabase extends RoomDatabase {
                     }
                 })
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build();
     }
 

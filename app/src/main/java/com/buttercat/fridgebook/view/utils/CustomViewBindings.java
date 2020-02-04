@@ -1,5 +1,6 @@
 package com.buttercat.fridgebook.view.utils;
 
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
@@ -17,13 +18,21 @@ public class CustomViewBindings {
      * and sets the appropiate {@link androidx.recyclerview.widget.RecyclerView.Adapter}
      *
      * @param recyclerView a {@link RecyclerView} which will have it's properties changed
-     * @param adapter
+     * @param adapter TODO
      */
     @BindingAdapter("setAdapter")
     public static void bindRecyclerViewAdapter(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * TODO comment
+     */
+    @BindingAdapter("setAdapter")
+    public static void bindAutoCompleteTextViewAdapter(AutoCompleteTextView autoCompleteTextView, NewItemArrayAdapter adapter) {
+        autoCompleteTextView.setAdapter(adapter);
     }
 
     @BindingAdapter("android:text")

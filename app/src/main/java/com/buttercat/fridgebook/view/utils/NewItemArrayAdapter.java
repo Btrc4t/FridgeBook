@@ -41,7 +41,6 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
      * {@link android.widget.AutoCompleteTextView}
      */
     private Ingredient mLastSelectedIngredient;
-    private IngredientCallback mIngredientCallback;
 
     /**
      * Constructor which uses a basic Android layout to show a dropdown of suggestions
@@ -49,12 +48,11 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
      * @param context {@link Context} used by the {@link LayoutInflater} to inflate one item's view
      * @param objects {@link List<Ingredient>} to be shown as suggestions
      */
-    public NewItemArrayAdapter(IngredientCallback ingredientCallback, @NonNull Context context,
+    public NewItemArrayAdapter(@NonNull Context context,
                                @NonNull List<Ingredient> objects) {
         super(context, android.R.layout.simple_dropdown_item_1line, objects);
         mContext = context;
         mIngredientList = objects;
-        mIngredientCallback = ingredientCallback;
         setNotifyOnChange(true);
     }
 
@@ -73,7 +71,8 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
      * @return the {@link Ingredient} object found in {@link #mIngredientList} at the input position
      */
     public Ingredient getItem(int position) {
-        return mIngredientList.get(position);
+        mLastSelectedIngredient = mIngredientList.get(position);
+        return mLastSelectedIngredient;
     }
 
     /**
@@ -159,8 +158,6 @@ public class NewItemArrayAdapter extends ArrayAdapter<Ingredient> {
 
             @Override
             public CharSequence convertResultToString(Object resultValue) {
-                mLastSelectedIngredient = (Ingredient) resultValue;
-                mIngredientCallback.onIngredientSelected(mLastSelectedIngredient);
                 return ((Ingredient) resultValue).getFridgeItemName();
             }
         };

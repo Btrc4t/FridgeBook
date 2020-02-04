@@ -71,7 +71,7 @@ public class SpoontacularApi {
      */
     public void fetchIngredientsList(String query, int responseLimit,
                                      Callback<List<Ingredient>> ingredientCallback) {
-        mSpoontacularService.autocompleteIngredients(query, responseLimit, API_KEY)
+        mSpoontacularService.autocompleteIngredients(query, responseLimit, true, API_KEY)
                 .enqueue(ingredientCallback);
     }
 }

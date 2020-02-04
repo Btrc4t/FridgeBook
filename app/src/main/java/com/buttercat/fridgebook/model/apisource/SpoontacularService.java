@@ -17,6 +17,7 @@ interface SpoontacularService {
     @GET("/food/ingredients/autocomplete?")
     Call<List<Ingredient>> autocompleteIngredients(@Query("query") String query,
                                                    @Query("number") int number,
+                                                   @Query("metaInformation") boolean meta,
                                                    @Query("apiKey") String apiKey);
 
 }

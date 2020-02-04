@@ -6,7 +6,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.buttercat.fridgebook.R;
 import com.buttercat.fridgebook.databinding.ActivityNewItemBinding;
 import com.buttercat.fridgebook.model.Ingredient;
-import com.buttercat.fridgebook.view.utils.IngredientCallback;
 import com.buttercat.fridgebook.view.utils.NewItemArrayAdapter;
 import com.buttercat.fridgebook.viewmodel.NewItemViewModel;
 
@@ -29,7 +30,7 @@ import retrofit2.Response;
  * An activity which gathers input from the user to create a new {@link Ingredient} and
  * store it in the database.
  */
-public class NewItemActivity extends AppCompatActivity implements IngredientCallback {
+public class NewItemActivity extends AppCompatActivity {
 
     private static final String TAG = NewItemActivity.class.getSimpleName();
     /**
@@ -44,18 +45,34 @@ public class NewItemActivity extends AppCompatActivity implements IngredientCall
      * A {@link android.widget.ArrayAdapter} used to show {@link Ingredient} suggestions
      */
     private NewItemArrayAdapter mSuggestionsAdapter;
+    /**
+     * A {@link android.widget.ArrayAdapter} used to show {@link Ingredient}'s possible units
+     */
+    private ArrayAdapter<CharSequence> mUnitsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_new_item);
         mNewItemViewModel = new ViewModelProvider(this).get(NewItemViewModel.class);
-        mSuggestionsAdapter = new NewItemArrayAdapter(this, this,
+        mSuggestionsAdapter = new NewItemArrayAdapter(this,
                 new ArrayList<>());
         mBinding.editIngredient.setAdapter(mSuggestionsAdapter);
+
+        mUnitsAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, new ArrayList<>());
+        mBinding.possibleUnits.setAdapter(mUnitsAdapter);
+
+        mBinding.editIngredient.setOnItemClickListener((parent, view, position, id) -> {
+            Ingredient selectedIngredient = mSuggestionsAdapter.getItem(position);
+            if (selectedIngredient == null) return;
+            onIngredientSelected(selectedIngredient);
+        });
+
         mBinding.editIngredient.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -64,25 +81,26 @@ public class NewItemActivity extends AppCompatActivity implements IngredientCall
                 // TODO remove magic numbers
                 mNewItemViewModel.fetchIngredientsWithQuery(s.toString(), 5,
                         new Callback<List<Ingredient>>() {
-                    @Override
-                    public void onResponse(Call<List<Ingredient>> call,
-                                           Response<List<Ingredient>> response) {
-                        if (response.body() == null) {
-                            Log.i(TAG, "onResponse: null body");
-                            return;
-                        }
-                        runOnUiThread(() -> mSuggestionsAdapter.setItems(response.body()));
-                    }
+                            @Override
+                            public void onResponse(Call<List<Ingredient>> call,
+                                                   Response<List<Ingredient>> response) {
+                                if (response.body() == null) {
+                                    Log.i(TAG, "onResponse: null body");
+                                    return;
+                                }
+                                runOnUiThread(() -> mSuggestionsAdapter.setItems(response.body()));
+                            }
 
-                    @Override
-                    public void onFailure(Call<List<Ingredient>> call, Throwable t) {
-                        Log.e(TAG, "onFailure: failed to obtain a list of ingredients",t);
-                    }
-                });
+                            @Override
+                            public void onFailure(Call<List<Ingredient>> call, Throwable t) {
+                                Log.e(TAG, "onFailure: failed to obtain a list of ingredients", t);
+                            }
+                        });
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
 
@@ -108,22 +126,23 @@ public class NewItemActivity extends AppCompatActivity implements IngredientCall
             //TODO alert user (for the first version we can't store unknown ingredients)
             return;
         }
-        float quantity = Float.parseFloat("0");
-        try {
-            Float.parseFloat(selectedQuantity);
-        } catch (Exception e) {
-            Log.e(TAG, "saveButtonClicked: could not parse quantity as integer", e);
-            return;
-        }
+
 
         Ingredient selectedIngredient = mSuggestionsAdapter.getTheLastSelectedIngredient();
+        String quantity = mBinding.editQuantity.getText()
+                + " " + mBinding.possibleUnits.getSelectedItem().toString();
         selectedIngredient.setQuantity(quantity);
         mNewItemViewModel.insert(selectedIngredient);
         this.finish();
     }
 
-    @Override
-    public void onIngredientSelected(Ingredient ingredientSelected) {
-        //TODO modify activity elements to match ingredient e.g. unit type
+    private void onIngredientSelected(@NonNull Ingredient ingredientSelected) {
+        if (!ingredientSelected.getFridgeItemName()
+                .equalsIgnoreCase(mBinding.editIngredient.getText().toString())) return;
+        if (ingredientSelected.getPossibleUnits() != null) {
+            mUnitsAdapter.clear();
+            mUnitsAdapter.addAll(ingredientSelected.getPossibleUnits());
+            mUnitsAdapter.notifyDataSetChanged();
+        }
     }
 }

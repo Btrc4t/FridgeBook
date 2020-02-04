@@ -35,7 +35,7 @@ public class Ingredient {
      * The quantity of the item (stored in grams/milliliters by default)
      */
     @ColumnInfo(name = "quantity")
-    private float quantity;
+    private String quantity;
     /**
      * The aisle for this ingredient
      */
@@ -62,7 +62,7 @@ public class Ingredient {
     private String image;
 
 
-    public Ingredient(float quantity) {
+    public Ingredient(String quantity) {
         this.quantity = quantity;
     }
 
@@ -107,11 +107,11 @@ public class Ingredient {
         this.image = image;
     }
 
-    public float getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
