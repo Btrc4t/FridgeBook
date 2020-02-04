@@ -7,17 +7,16 @@
             name="item"
             type="com.buttercat.fridgebook.model.Ingredient" />
 
-        <variable
-            name="itemClickListener"
-            type="com.buttercat.fridgebook.view.utils.FridgeItemClickListener" />
     </data>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> itemClickListener.fridgeItemClicked(item)}"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:longClickable="true"
+        android:orientation="vertical"
+        android:focusable="true">
 
         <TextView
             android:id="@+id/tvAndroidName"

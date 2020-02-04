@@ -76,6 +76,9 @@ public class NewItemActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (before > count && mBinding.possibleUnits.getVisibility() == View.VISIBLE) {
+                    mBinding.possibleUnits.setVisibility(View.GONE);
+                }
                 if (count < 2) return; // Don't query the API with less than 2 characters
                 // Fetch 5 ingredients
                 // TODO remove magic numbers
@@ -139,6 +142,9 @@ public class NewItemActivity extends AppCompatActivity {
     private void onIngredientSelected(@NonNull Ingredient ingredientSelected) {
         if (!ingredientSelected.getFridgeItemName()
                 .equalsIgnoreCase(mBinding.editIngredient.getText().toString())) return;
+        if (mBinding.possibleUnits.getVisibility() == View.GONE) {
+            mBinding.possibleUnits.setVisibility(View.VISIBLE);
+        }
         if (ingredientSelected.getPossibleUnits() != null) {
             mUnitsAdapter.clear();
             mUnitsAdapter.addAll(ingredientSelected.getPossibleUnits());

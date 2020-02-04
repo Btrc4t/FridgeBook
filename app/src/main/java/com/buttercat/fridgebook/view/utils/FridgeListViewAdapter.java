@@ -1,9 +1,10 @@
 package com.buttercat.fridgebook.view.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ProcessLifecycleOwner;
@@ -18,8 +19,7 @@ import java.util.List;
 
 
 public class FridgeListViewAdapter
-        extends RecyclerView.Adapter<FridgeListViewAdapter.FridgeItemViewHolder>
-        implements FridgeItemClickListener {
+        extends RecyclerView.Adapter<FridgeListViewAdapter.FridgeItemViewHolder> {
 
     /**
      * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link Ingredient}
@@ -33,6 +33,8 @@ public class FridgeListViewAdapter
      * The list of {@link Ingredient} objects to be shown in this adapter
      */
     private List<Ingredient> fridgeListItems = new ArrayList<>();
+
+    private FridgeItemClickListener mFridgeItemClickListener;
 
     /**
      * Constructor which creates an {@link java.util.Observer} for the list of {@link Ingredient}
@@ -64,7 +66,6 @@ public class FridgeListViewAdapter
         Ingredient fridgeListItem = fridgeListItems.get(position);
         if (fridgeListItem == null) return;
         holder.bind(fridgeListItem);
-        holder.itemRowBinding.setItemClickListener(this);
     }
 
 
@@ -73,29 +74,42 @@ public class FridgeListViewAdapter
         return fridgeListItems.size();
     }
 
-    /*package*/ class FridgeItemViewHolder extends RecyclerView.ViewHolder {
+    /*package*/ class FridgeItemViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
         /*package*/ ItemRowBinding itemRowBinding;
 
         /*package*/ FridgeItemViewHolder(ItemRowBinding itemRowBinding) {
             super(itemRowBinding.getRoot());
             this.itemRowBinding = itemRowBinding;
+            itemRowBinding.getRoot().setOnClickListener(this::onClick);
+            itemRowBinding.getRoot().setOnLongClickListener(this::onLongClick);
         }
 
         /*package*/ void bind(Ingredient fridgeListItem) {
             itemRowBinding.setItem(fridgeListItem);
             itemRowBinding.executePendingBindings();
         }
+
+        @Override
+        public void onClick(View v) {
+            mFridgeItemClickListener.fridgeItemClicked(itemRowBinding.getItem());
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            mFridgeItemClickListener.fridgeItemLongClicked(itemRowBinding.getItem());
+            return true;
+        }
     }
 
     /**
-     * Method called when a {@link Ingredient} is clicked, showing a {@link Toast} as feedback
-     * to the user
+     * Method used to set a click listener callback which will return the {@link Ingredient}
+     * which was clicked or long clicked by the user
      *
-     * @param fridgeListItem the {@link Ingredient} which was clicked
+     * @param fridgeItemClickListener the {@link FridgeItemClickListener} callback
      */
-    public void fridgeItemClicked(Ingredient fridgeListItem) {
-        Toast.makeText(context, "You clicked " + fridgeListItem.getFridgeItemName(),
-                Toast.LENGTH_SHORT).show();
+    public void setFridgeItemClickListener(FridgeItemClickListener fridgeItemClickListener) {
+        mFridgeItemClickListener = fridgeItemClickListener;
     }
 }
 

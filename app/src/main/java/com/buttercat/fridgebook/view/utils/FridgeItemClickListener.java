@@ -13,4 +13,11 @@ public interface FridgeItemClickListener {
      * @param fridgeListItem the {@link Ingredient} which was clicked
      */
     void fridgeItemClicked(Ingredient fridgeListItem);
+
+    /**
+     * Method called when a {@link Ingredient} is long clicked
+     *
+     * @param fridgeListItem the {@link Ingredient} which was long clicked
+     */
+    void fridgeItemLongClicked(Ingredient fridgeListItem);
 }
