@@ -5,9 +5,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:forceDarkAllowed="true"
+        android:background="@color/primary">
 
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:backgroundTint="@color/secondary"
             android:id="@+id/edit_ingredient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,12 +24,14 @@
 
 
         <Spinner
+            android:backgroundTint="@color/secondary"
             android:id="@+id/possible_units"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
         <EditText
+            android:backgroundTint="@color/secondary"
             android:id="@+id/edit_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,10 +47,9 @@
             android:id="@+id/button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:backgroundTint="@color/secondary"
             android:text="@string/button_save"
-            android:onClick="saveButtonClicked"
-            android:textColor="@color/buttonLabel" />
+            android:onClick="saveButtonClicked"/>
 
     </LinearLayout>
 
