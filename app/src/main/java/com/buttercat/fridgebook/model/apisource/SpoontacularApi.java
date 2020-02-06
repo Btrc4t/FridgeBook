@@ -84,10 +84,13 @@ public class SpoontacularApi {
                 .enqueue(ingredientCallback);
     }
 
+    /**
+     * Generates a download URL for a given impartial image URL from an {@link Ingredient}
+     *
+     * @param ingredient an {@link Ingredient} URL
+     * @return a full URL with the API key included
+     */
     public static String generateImageUrlForIngredient250px(String ingredient) {
-        StringBuilder output = new StringBuilder()
-                .append(INGREDIENT_IMAGE_BASE_URL)
-                .append(ingredient).append("?").append(API_KEY);
-        return output.toString();
+        return INGREDIENT_IMAGE_BASE_URL + ingredient + "?" + API_KEY;
     }
 }
