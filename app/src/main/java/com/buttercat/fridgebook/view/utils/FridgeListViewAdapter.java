@@ -1,17 +1,19 @@
 package com.buttercat.fridgebook.view.utils;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buttercat.fridgebook.databinding.ItemRowBinding;
 import com.buttercat.fridgebook.model.Ingredient;
+import com.buttercat.fridgebook.model.apisource.SpoontacularApi;
 import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 
 import java.util.ArrayList;
@@ -24,11 +26,7 @@ public class FridgeListViewAdapter
     /**
      * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link Ingredient}
      */
-    private FridgeListViewModel mainViewModel;
-    /**
-     * A {@link Context} used to show a toast TODO remove this
-     */
-    private Context context;
+    private static FridgeListViewModel mainViewModel;
     /**
      * The list of {@link Ingredient} objects to be shown in this adapter
      */
@@ -41,11 +39,9 @@ public class FridgeListViewAdapter
      *
      * @param viewModel a reference for the {@link androidx.lifecycle.AndroidViewModel} which provides
      *                  the list of {@link Ingredient} objects
-     * @param context a reference for the {@link Context} used to show a toast TODO remove this
      */
-    public FridgeListViewAdapter(FridgeListViewModel viewModel, Context context) {
-        this.mainViewModel = viewModel;
-        this.context = context;
+    public FridgeListViewAdapter(FridgeListViewModel viewModel) {
+        mainViewModel = viewModel;
         mainViewModel.getFridgeContents().observe(ProcessLifecycleOwner.get(), newFridgeItems -> {
             fridgeListItems = newFridgeItems;
             this.notifyDataSetChanged(); //TODO use DiffUtils
@@ -66,6 +62,14 @@ public class FridgeListViewAdapter
         Ingredient fridgeListItem = fridgeListItems.get(position);
         if (fridgeListItem == null) return;
         holder.bind(fridgeListItem);
+    }
+
+    @BindingAdapter({"bind:imageUrl"})
+    public static void loadImage(ImageView view, String imageUrl) {
+        mainViewModel.getPicasso()
+                .load(SpoontacularApi.generateImageUrlForIngredient250px(imageUrl))
+                .transform(new CircleTransform())
+                .into(view);
     }
 
 

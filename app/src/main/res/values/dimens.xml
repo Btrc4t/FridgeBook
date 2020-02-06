@@ -6,4 +6,6 @@
     <dimen name="layout_padding_all_6dp">6dp</dimen>
     <dimen name="layout_padding_all_16dp">16dp</dimen>
     <dimen name="text_size_18sp">18sp</dimen>
+    <dimen name="fridge_list_item_row_height">60dp</dimen>
+    <dimen name="fridge_list_item_row_image_width">60dp</dimen>
 </resources>

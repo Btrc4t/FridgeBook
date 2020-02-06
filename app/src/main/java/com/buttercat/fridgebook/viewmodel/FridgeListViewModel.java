@@ -11,6 +11,7 @@ import com.buttercat.fridgebook.model.Ingredient;
 import com.buttercat.fridgebook.view.FridgeListFragment;
 import com.buttercat.fridgebook.view.utils.FridgeListViewAdapter;
 import com.buttercat.fridgebook.model.FridgeRepository;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class FridgeListViewModel extends AndroidViewModel {
         super(application);
         FridgeRepository repository = ((BasicApp) application).getRepository();
         fridgeContents = repository.getFridgeContentsLiveData();
-        myRecyclerViewAdapter = new FridgeListViewAdapter(this, application);
+        myRecyclerViewAdapter = new FridgeListViewAdapter(this);
     }
 
     /**
@@ -59,5 +60,14 @@ public class FridgeListViewModel extends AndroidViewModel {
      */
     public FridgeListViewAdapter getAdapter() {
             return myRecyclerViewAdapter;
+    }
+
+    /**
+     * Provides the {@link Picasso} used to load images
+     *
+     * @return the {@link Picasso} used to load images
+     */
+    public Picasso getPicasso() {
+        return Picasso.get();
     }
 }

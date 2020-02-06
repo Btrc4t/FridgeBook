@@ -31,6 +31,15 @@ public class SpoontacularApi {
      * {@link Retrofit} interface defining available queries for this API
      */
     private SpoontacularService mSpoontacularService = null;
+    /**
+     * Base URL used to access the API
+     */
+    private static final String BASE_URL = "https://api.spoonacular.com";
+    /**
+     * Base URL used to access an {@link Ingredient} image from the API
+     */
+    private static final String INGREDIENT_IMAGE_BASE_URL =
+            "https://spoonacular.com/cdn/ingredients_250x250/";
 
     /**
      * Constructor for the Spoontacular API which creates a {@link Retrofit} object
@@ -43,7 +52,7 @@ public class SpoontacularApi {
         Moshi moshi = new Moshi.Builder().build();
 
         retrofitInstance = new Retrofit.Builder()
-                .baseUrl("https://api.spoonacular.com")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .callbackExecutor(executorService)
                 .build();
@@ -73,5 +82,12 @@ public class SpoontacularApi {
                                      Callback<List<Ingredient>> ingredientCallback) {
         mSpoontacularService.autocompleteIngredients(query, responseLimit, true, API_KEY)
                 .enqueue(ingredientCallback);
+    }
+
+    public static String generateImageUrlForIngredient250px(String ingredient) {
+        StringBuilder output = new StringBuilder()
+                .append(INGREDIENT_IMAGE_BASE_URL)
+                .append(ingredient).append("?").append(API_KEY);
+        return output.toString();
     }
 }
