@@ -4,5 +4,6 @@
     <color name="primary">#353635</color>
     <color name="secondary">#FFCC80</color>
     <color name="error">#Ef9A9A</color>
+    <color name="shadow">#303030</color>
     <color name="primaryDark">#000000</color>
 </resources>

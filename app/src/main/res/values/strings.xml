@@ -6,4 +6,7 @@
     <string name="empty_not_saved">Item was not saved (empty)</string>
     <string name="hint_new_fridge_item_quantity">Enter quantity</string>
     <string name="fridge_item_image">Image For Ingredient</string>
+    <string name="bottom_menu_ingredients">Ingredients</string>
+    <string name="bottom_menu_recipes">Recipes</string>
+    <string name="bottom_menu_shopping_list">Shopping List</string>
 </resources>
