@@ -1,5 +1,6 @@
 package com.buttercat.fridgebook.model.apisource;
 
+import com.buttercat.fridgebook.BuildConfig;
 import com.buttercat.fridgebook.model.Ingredient;
 import com.squareup.moshi.Moshi;
 
@@ -15,10 +16,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
  */
 public class SpoontacularApi {
 
-    /**
-     * The API key to use with the Spoontacular API
-     */
-    private static final String API_KEY = "775ce838b2404828a205665367995c52";
     /**
      * Singleton instance of this class
      */
@@ -80,7 +77,7 @@ public class SpoontacularApi {
      */
     public void fetchIngredientsList(String query, int responseLimit,
                                      Callback<List<Ingredient>> ingredientCallback) {
-        mSpoontacularService.autocompleteIngredients(query, responseLimit, true, API_KEY)
+        mSpoontacularService.autocompleteIngredients(query, responseLimit, true, BuildConfig.API_KEY)
                 .enqueue(ingredientCallback);
     }
 
@@ -91,6 +88,6 @@ public class SpoontacularApi {
      * @return a full URL with the API key included
      */
     public static String generateImageUrlForIngredient250px(String ingredient) {
-        return INGREDIENT_IMAGE_BASE_URL + ingredient + "?" + API_KEY;
+        return INGREDIENT_IMAGE_BASE_URL + ingredient + "?" + BuildConfig.API_KEY;
     }
 }
