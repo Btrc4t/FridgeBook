@@ -79,7 +79,8 @@ public class FridgeRepository {
      * Room executes all queries on a separate thread.
      * Observed LiveData will notify the observer when the data has changed.
      *
-     * @return a {@link LiveData<List<com.buttercat.fridgebook.model.Ingredient>>} with the latest contents from the database
+     * @return a {@link LiveData<List<com.buttercat.fridgebook.model.Ingredient>>} with the latest
+     * contents from the database
      */
     public LiveData<List<Ingredient>> getFridgeContentsLiveData() {
         return liveFridgeList;
@@ -105,5 +106,23 @@ public class FridgeRepository {
      */
     public void fetchIngredientsWithQuery(String query, int limit, Callback<List<Ingredient>> respCallback) {
         mSpoontacularApi.fetchIngredientsList(query, limit, respCallback);
+    }
+
+    /**
+     * Obtain a {@link List<Recipe>} asynchronously, with a query and set a {@link Callback}
+     * that will be called when the list is obtained by {@link retrofit2.Retrofit}
+     *
+     * @param ingredients                 the ingredients used to search a recipe
+     * @param responseLimit               the number of recipes the search will return
+     * @param showOnlyOpenLicensedRecipes true if only recipes with an open license should be shown
+     * @param recipeRanking               the {@link RecipeRankings} configuration desired, used to sort results
+     * @param ignorePantry                true if regular items such as salt should be considered as included
+     * @param recipesCallback             a {@link Callback} which is called when the query has completed
+     */
+    public void fetchRecipesUsingIngredients(List<Ingredient> ingredients, int responseLimit,
+                                             boolean showOnlyOpenLicensedRecipes, RecipeRankings recipeRanking,
+                                             boolean ignorePantry, Callback<List<Recipe>> recipesCallback) {
+        mSpoontacularApi.fetchRecipesUsingIngredients(ingredients, responseLimit, showOnlyOpenLicensedRecipes,
+                recipeRanking, ignorePantry, recipesCallback);
     }
 }

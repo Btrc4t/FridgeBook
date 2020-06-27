@@ -61,13 +61,4 @@ public class FridgeListViewModel extends AndroidViewModel {
     public FridgeListViewAdapter getAdapter() {
             return myRecyclerViewAdapter;
     }
-
-    /**
-     * Provides the {@link Picasso} used to load images
-     *
-     * @return the {@link Picasso} used to load images
-     */
-    public Picasso getPicasso() {
-        return Picasso.get();
-    }
 }

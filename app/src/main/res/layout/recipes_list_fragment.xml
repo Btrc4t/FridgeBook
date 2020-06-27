@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="com.buttercat.fridgebook.viewmodel.FridgeListViewModel" />
+            type="com.buttercat.fridgebook.viewmodel.RecipesListViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,10 +16,10 @@
         android:layout_height="match_parent"
         android:background="@color/primary"
         android:forceDarkAllowed="true"
-        tools:context=".view.FridgeListFragment">
+        tools:context=".view.RecipesListFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fridgeList"
+            android:id="@+id/recipesList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/layout_margin_all_8dp"
@@ -33,18 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:setAdapter="@{model.getAdapter()}" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addItemButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin_all_16dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="addButtonClicked"
-            android:src="@drawable/ic_add_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

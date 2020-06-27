@@ -4,8 +4,8 @@
 
     <data>
         <variable
-            name="ingredient"
-            type="com.buttercat.fridgebook.model.Ingredient" />
+            name="recipe"
+            type="com.buttercat.fridgebook.model.Recipe" />
 
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_width="@dimen/fridge_list_item_row_image_width"
             android:layout_height="match_parent"
             android:contentDescription="@string/fridge_item_image"
-            app:imageUrl="@{ingredient.image}"
+            app:imageUrl="@{recipe.image}"
             android:padding="@dimen/layout_margin_all_8dp"/>
 
         <LinearLayout
@@ -32,17 +32,18 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/item_name"
+                android:id="@+id/recipe_name"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{ingredient.fridgeItemName}"
+                android:text="@{recipe.title}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
             <TextView
-                android:id="@+id/item_quantity"
+                android:id="@+id/recipe_short_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{ingredient.quantity}"
+                android:text="@{Integer.toString(recipe.likes)}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         </LinearLayout>

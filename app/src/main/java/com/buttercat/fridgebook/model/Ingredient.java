@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.buttercat.fridgebook.ListItem;
 import com.squareup.moshi.Json;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * as defined in the Spoontacular API
  */
 @Entity(tableName = "fridge_items")
-public class Ingredient {
+public class Ingredient extends ListItem {
 
     /**
      * The Spoontacular API id for this item

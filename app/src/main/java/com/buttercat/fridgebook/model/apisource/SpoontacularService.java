@@ -2,6 +2,7 @@ package com.buttercat.fridgebook.model.apisource;
 
 
 import com.buttercat.fridgebook.model.Ingredient;
+import com.buttercat.fridgebook.model.Recipe;
 
 import java.util.List;
 
@@ -19,5 +20,13 @@ interface SpoontacularService {
                                                    @Query("number") int number,
                                                    @Query("metaInformation") boolean meta,
                                                    @Query("apiKey") String apiKey);
+
+    @GET("/recipes/findByIngredients?")
+    Call<List<Recipe>> getRecipesWithIngredients(@Query("ingredients") String ingredients,
+                                                 @Query("number") int number,
+                                                 @Query("limitLicense") boolean limitLicense,
+                                                 @Query("ranking") int ranking,
+                                                 @Query("ignorePantry") boolean ignorePantry,
+                                                 @Query("apiKey") String apiKey);
 
 }

@@ -1,19 +1,15 @@
 package com.buttercat.fridgebook.view.utils;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.buttercat.fridgebook.databinding.ItemRowBinding;
 import com.buttercat.fridgebook.model.Ingredient;
-import com.buttercat.fridgebook.model.apisource.SpoontacularApi;
 import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 
 import java.util.ArrayList;
@@ -24,15 +20,11 @@ public class FridgeListViewAdapter
         extends RecyclerView.Adapter<FridgeListViewAdapter.FridgeItemViewHolder> {
 
     /**
-     * The {@link androidx.lifecycle.AndroidViewModel} used to obtain a list of {@link Ingredient}
-     */
-    private static FridgeListViewModel mainViewModel;
-    /**
      * The list of {@link Ingredient} objects to be shown in this adapter
      */
     private List<Ingredient> fridgeListItems = new ArrayList<>();
 
-    private FridgeItemClickListener mFridgeItemClickListener;
+    private FragmentItemClickListenerGroup mFragmentItemClickListenerGroup;
 
     /**
      * Constructor which creates an {@link java.util.Observer} for the list of {@link Ingredient}
@@ -41,12 +33,10 @@ public class FridgeListViewAdapter
      *                  the list of {@link Ingredient} objects
      */
     public FridgeListViewAdapter(FridgeListViewModel viewModel) {
-        mainViewModel = viewModel;
-        mainViewModel.getFridgeContents().observe(ProcessLifecycleOwner.get(), newFridgeItems -> {
+        viewModel.getFridgeContents().observe(ProcessLifecycleOwner.get(), newFridgeItems -> {
             fridgeListItems = newFridgeItems;
             this.notifyDataSetChanged(); //TODO use DiffUtils
         });
-
     }
 
     @NonNull
@@ -62,14 +52,6 @@ public class FridgeListViewAdapter
         Ingredient fridgeListItem = fridgeListItems.get(position);
         if (fridgeListItem == null) return;
         holder.bind(fridgeListItem);
-    }
-
-    @BindingAdapter({"bind:imageUrl"})
-    public static void loadImage(ImageView view, String imageUrl) {
-        mainViewModel.getPicasso()
-                .load(SpoontacularApi.generateImageUrlForIngredient250px(imageUrl))
-                .transform(new CircleTransform())
-                .into(view);
     }
 
 
@@ -90,18 +72,18 @@ public class FridgeListViewAdapter
         }
 
         /*package*/ void bind(Ingredient fridgeListItem) {
-            itemRowBinding.setItem(fridgeListItem);
+            itemRowBinding.setIngredient(fridgeListItem);
             itemRowBinding.executePendingBindings();
         }
 
         @Override
         public void onClick(View v) {
-            mFridgeItemClickListener.fridgeItemClicked(itemRowBinding.getItem());
+            mFragmentItemClickListenerGroup.itemClicked(itemRowBinding.getIngredient());
         }
 
         @Override
         public boolean onLongClick(View v) {
-            mFridgeItemClickListener.fridgeItemLongClicked(itemRowBinding.getItem());
+            mFragmentItemClickListenerGroup.itemLongClicked(itemRowBinding.getIngredient());
             return true;
         }
     }
@@ -110,10 +92,10 @@ public class FridgeListViewAdapter
      * Method used to set a click listener callback which will return the {@link Ingredient}
      * which was clicked or long clicked by the user
      *
-     * @param fridgeItemClickListener the {@link FridgeItemClickListener} callback
+     * @param fragmentItemClickListenerGroup the {@link FragmentItemClickListenerGroup} callback
      */
-    public void setFridgeItemClickListener(FridgeItemClickListener fridgeItemClickListener) {
-        mFridgeItemClickListener = fridgeItemClickListener;
+    public void setFridgeItemClickListeners(FragmentItemClickListenerGroup fragmentItemClickListenerGroup) {
+        mFragmentItemClickListenerGroup = fragmentItemClickListenerGroup;
     }
 }
 

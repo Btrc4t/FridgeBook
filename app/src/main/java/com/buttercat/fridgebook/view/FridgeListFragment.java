@@ -11,9 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.buttercat.fridgebook.ListItem;
 import com.buttercat.fridgebook.databinding.FridgeListFragmentBinding;
 import com.buttercat.fridgebook.model.Ingredient;
-import com.buttercat.fridgebook.view.utils.FridgeItemClickListener;
+import com.buttercat.fridgebook.view.utils.FragmentItemClickListenerGroup;
 import com.buttercat.fridgebook.view.utils.FridgeListViewAdapter;
 import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
 
@@ -21,7 +22,8 @@ import com.buttercat.fridgebook.viewmodel.FridgeListViewModel;
  * A custom {@link Fragment} which shows the
  * {@link com.buttercat.fridgebook.view.utils.FridgeListViewAdapter}
  */
-public class FridgeListFragment extends Fragment implements FridgeItemClickListener {
+public class FridgeListFragment extends Fragment implements FragmentItemClickListenerGroup {
+
     /**
      * The databinding class which takes care of inflating the fragment
      */
@@ -32,7 +34,8 @@ public class FridgeListFragment extends Fragment implements FridgeItemClickListe
      *
      * @return a new {@link FridgeListFragment} instance
      */
-    /*package*/ static FridgeListFragment newInstance() {
+    /*package*/
+    static FridgeListFragment newInstance() {
         return new FridgeListFragment();
     }
 
@@ -46,28 +49,28 @@ public class FridgeListFragment extends Fragment implements FridgeItemClickListe
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
         FridgeListViewModel mViewModel = new ViewModelProvider(this).get(FridgeListViewModel.class);
         fridgeListFragmentBinding.setLifecycleOwner(this);
         fridgeListFragmentBinding.setModel(mViewModel);
         fridgeListFragmentBinding.executePendingBindings();
         if (fridgeListFragmentBinding.fridgeList.getAdapter() != null) {
             ((FridgeListViewAdapter) fridgeListFragmentBinding.fridgeList.getAdapter())
-                    .setFridgeItemClickListener(this);
+                    .setFridgeItemClickListeners(this);
         }
     }
 
     @Override
-    public void fridgeItemClicked(Ingredient fridgeListItem) {
-        Toast.makeText(this.getContext(), "You clicked " + fridgeListItem.getFridgeItemName(),
+    public void itemClicked(ListItem item) {
+        Toast.makeText(this.getContext(), "You clicked " + ((Ingredient) item).getFridgeItemName(),
                 Toast.LENGTH_SHORT).show();
         // TODO show ingredient details
     }
 
     @Override
-    public void fridgeItemLongClicked(Ingredient fridgeListItem) {
-        Toast.makeText(this.getContext(), "You long clicked " + fridgeListItem.getFridgeItemName(),
+    public void itemLongClicked(ListItem item) {
+        Toast.makeText(this.getContext(), "You long clicked " + ((Ingredient) item).getFridgeItemName(),
                 Toast.LENGTH_SHORT).show();
         // TODO provide alter or delete option
     }

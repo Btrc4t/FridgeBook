@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <color name="primary">#F2FFFE</color>
+    <color name="primary">#FFFFFE</color>
     <color name="primaryDark">#A3A3A3</color>
     <color name="secondary">#F57C00</color>
-    <color name="shadow">#D2DFDE</color>
+    <color name="shadow">#FFD2DFDE</color>
     <color name="error">#E53935</color>
 </resources>
